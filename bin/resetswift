@@ -2,12 +2,15 @@
 
 swift-init all stop
 find /var/log/swift -type f -exec rm -f {} \;
-umount /mnt/sdb1
-mkfs.xfs -f /dev/sdb1
-mount /mnt/sdb1
-mkdir /mnt/sdb1/1 /mnt/sdb1/2 /mnt/sdb1/3 /mnt/sdb1/4
-chown swift:swift /mnt/sdb1/*
-mkdir -p /srv/1/node/sdb1 /srv/2/node/sdb2 /srv/3/node/sdb3 /srv/4/node/sdb4
+umount "${STORAGE_MOUNT:=/mnt/sdb1}"
+STORAGE_DEV="${STORAGE_DEV:=/tmp/loopfile}"
+(grep -qE '^/dev/(?!loop)' <<<"${STORAGE_DEV}" || truncate -s 420690KB "${STORAGE_DEV}") && mkfs.xfs -f "${STORAGE_DEV}"
+mount "${STORAGE_MOUNT}"
+for i in $(seq 1 4); do
+  mkdir "${STORAGE_MOUNT}/${i}"
+  chown swift:swift "${STORAGE_MOUNT}/${i}"
+  mkdir -p "/srv/${i}/node/sdb${i}"
+done
 rm -f /var/log/debug /var/log/messages /var/log/rsyncd.log /var/log/syslog
 find /var/cache/swift* -type f -name *.recon -exec rm -f {} \;
 service rsyslog restart
