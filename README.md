@@ -7,10 +7,10 @@ Docker image for Swift all-in-one demo deployment
 
 This is an attempt to dockerize the instructions for a [Swift All-in-one deployment](https://docs.openstack.org/swift/latest/development_saio.html).
 
-Swift requires xattr to be enabled. With the overlay2 storage driver, Docker
+Swift requires `xattr` to be enabled. With the `overlay2` storage driver, Docker
 supports extended attributes. However, if you're using the older AUFS storage
 driver, it isn't possible for Swift to use storage within the Docker image.
-The workaround for this is to mount a volume from a filesystem where xattr is
+The workaround for this is to mount a volume from a filesystem where `xattr` is
 enabled (e.g. ext4 or xfs).
 
 If you'd like the data to be persistent, you should also store it in an external
@@ -88,36 +88,26 @@ Result:
 * Closing connection #0
 ```
 
-To run the demo.sh script, store the X-Storage-Url and X-Auth-Token values in environment variables:
+To run the `demo.sh` script, store the `X-Storage-Url` and `X-Auth-Token` values in environment variables:
 
 ```
 export URL=http://127.0.0.1:8080/v1/AUTH_test
 export TOKEN=AUTH_tk246b80e9b72a42e68a76e0ff2aaaf051
 ```
 
-You can then run demo.sh, which will execute a series of curl commands to create
+You can then run `demo.sh`, which will execute a series of `curl` commands to create
 a container, list various information, put itself into Swift as object
-"testcontainer/testobject", and retrieve itself again as "retrieved_demo.sh".
-
-## Notes
-
-Uses [supervisord](http://supervisord.org/) to keep the image running. To get a shell on the container, you can use:
-
-```
-docker exec -it <container name> /bin/bash
-```
-
-Tail /var/log/syslog to see what it's doing.
+`testcontainer/testobject`, and retrieve itself again as `retrieved_demo.sh`.
 
 ## Notes on changes from Swift-AIO instructions
 
-- user and group ids are swift:swift
+- user and group ids are `swift:swift`
 - the instructions provide for using a separate partition or a loopback for
   storage, presumably to allow the storage capacity to be strictly limited.
-  Neither of these was easy for a Docker n00b to implement, so I've just used
-  /swift, with symbolic links in /srv. The storage can be limited at the OS
-  level in the Docker image if it's a concern.
-- the Github sources are cloned to /usr/local/src
+  Neither of these was easy for a Docker newcomer to implement, so I've just
+  used `/swift`, with symbolic links in `/srv`. The storage can be limited
+  at the OS level in the Docker image if it's a concern.
+- the Github sources are cloned to `/usr/local/src`
 
 ## License
 
