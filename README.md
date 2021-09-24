@@ -52,8 +52,8 @@ docker run -P -v /path/to/proxy-server.conf:/etc/swift/proxy-server.conf -t dock
 Discover the port by running `docker ps`, which will give output like this:
 
 ```
-CONTAINER ID   IMAGE                                COMMAND                  CREATED         STATUS         PORTS                     NAMES
-8f892e66b517   dockerswiftaio/docker-swift:2.24.0   "/bin/bash /swift/bi…"   7 seconds ago   Up 6 seconds   0.0.0.0:49177->8080/tcp   magical_bhaskara
+CONTAINER ID   IMAGE                                COMMAND                CREATED         STATUS         PORTS                     NAMES
+8f892e66b517   dockerswiftaio/docker-swift:2.24.0   "/bin/sh /swift/bi…"   7 seconds ago   Up 6 seconds   0.0.0.0:49177->8080/tcp   magical_bhaskara
 ```
 
 You want the port that is mapped to port 8080 within the Docker image, in this case 49176.

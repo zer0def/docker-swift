@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 swift-init all stop
 find /var/log/swift -type f -exec rm -f {} \;
